@@ -2,9 +2,12 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Basics {
     public static void main(String[] args) {
+
         int age = 13;
 
         String name = "Daniil";
@@ -52,6 +55,29 @@ public class Basics {
         for (NotificationService service : services) {
             service.send("Ваш перевод одобрен!");
         }
+
+        Map<String, String> statusMap = new HashMap<>();
+        statusMap.put("TX-1001", "NEW");
+        statusMap.put("TX-1002", "DONE");
+
+        String status = statusMap.get("TX-1001");
+        System.out.println("Статус перевода TX-1001: " + status);
+
+        System.out.println("Есть ли TX-9999? " + statusMap.containsKey("TX-9999"));
+
+        System.out.println("--- Начало опасной операции ---");
+
+        try {
+            int divf = 10;
+            int divc = 0;
+            int divResult = divf / divc; // На ноль делить нельзя! Здесь будет ошибка.
+            System.out.println("Результат: " + divResult); // Эта строка не выполнится
+
+        } catch (ArithmeticException e) {
+            System.out.println("Ошибка перехвачена! Причина: " + e.getMessage());
+        }
+
+        System.out.println("--- Программа продолжает работу ---");
     }
 
     public static int sum(int x, int y) {
