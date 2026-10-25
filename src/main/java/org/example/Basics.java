@@ -43,6 +43,15 @@ public class Basics {
         for (Transfer t : transfers) {
             System.out.println("Перевод: " + t.getId() + " на сумму " + t.getAmount());
         }
+        // Создаем список, который хранит в себе ЛЮБЫЕ реализации интерфейса NotificationService
+        List<NotificationService> services = new ArrayList<>();
+        services.add(new EmailNotification());
+        services.add(new SmsNotification());
+
+// Проходимся циклом и вызываем метод send()
+        for (NotificationService service : services) {
+            service.send("Ваш перевод одобрен!");
+        }
     }
 
     public static int sum(int x, int y) {
