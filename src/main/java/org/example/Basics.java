@@ -21,8 +21,26 @@ public class Basics {
 
         int result = sum(5, 7);
         System.out.println("Сумма: " + result);
+
+        checkMoney(1500, 500);
+        checkMoney(1000, 5000);
+
+        for (int i = 1; i <= 3; i++) {
+            System.out.println("Перевод номер: " + i + " Успешен");
+        }
+
+
     }
+
     public static int sum(int x, int y) {
         return x + y;
+    }
+
+    public static void checkMoney(double balance, double price) {
+        if (balance >= price) {
+            System.out.println("Покупка одобрена");
+        } else {
+            System.out.println("Недостаточно средств");
+        }
     }
 }
