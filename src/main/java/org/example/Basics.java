@@ -32,25 +32,16 @@ public class Basics {
             System.out.println("Перевод номер: " + i + " Успешен");
         }
 
-        Transfer myTransfer = new Transfer();
-        myTransfer.id = "TX-1001";
-        myTransfer.amount = 5000.50;
-        myTransfer.status = "NEW";
+        Transfer myTransfer = new Transfer("TX-1001", 5000.50, "NEW");
 
-        System.out.println(myTransfer.amount + " " + myTransfer.status);
 
-        Transfer myTransfer2 = new Transfer();
-        myTransfer2.id = "TX-1002";
-        myTransfer2.amount = 2342.50;
-        myTransfer2.status = "DONE";
-
-        System.out.println(myTransfer2.amount + " " + myTransfer2.status);
+        Transfer myTransfer2 = new Transfer("TX-1002", 2342.50, "DONE");
 
         List<Transfer> transfers = new ArrayList<>();
         transfers.add(myTransfer);
         transfers.add(myTransfer2);
         for (Transfer t : transfers) {
-            System.out.println("Перевод: " + t.id + " на сумму " + t.amount);
+            System.out.println("Перевод: " + t.getId() + " на сумму " + t.getAmount());
         }
     }
 
