@@ -1,35 +1,43 @@
 package com.example.transfer.domain;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import java.math.BigDecimal;
-import static org.junit.jupiter.api.Assertions.*;
+
+// Мы больше не используем статические методы из Assertions.*
+// Мы используем статический импорт из AssertJ
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MoneyTest {
 
     @Test
     void shouldCreateValidMoney() {
-        // Given (Дано)
         BigDecimal amount = new BigDecimal("100.50");
         String currency = "RUB";
 
-        // When (Когда)
         Money money = new Money(amount, currency);
 
-        // Then (Тогда)
-        assertEquals(amount, money.getAmount(), "Сумма должна совпадать");
-        assertEquals(currency, money.getCurrency(), "Валюта должна совпадать");
+        // AssertJ стиль: читается как обычный английский текст
+        assertThat(money.getAmount()).isEqualByComparingTo("100.50");
+        assertThat(money.getCurrency()).isEqualTo("RUB");
+    }
+
+    // Параметризованный тест: проверяет сразу несколько невалидных сумм
+    @ParameterizedTest(name = "Сумма {0} должна вызывать ошибку")
+    @ValueSource(strings = {"-10", "-0.01", "-100500"})
+    void shouldThrowExceptionWhenAmountIsNegative(String negativeAmount) {
+
+        assertThatThrownBy(() -> new Money(new BigDecimal(negativeAmount), "RUB"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Сумма не может быть отрицательной");
     }
 
     @Test
-    void shouldThrowExceptionWhenAmountIsNegative() {
-        // Проверяем, что при отрицательной сумме вылетит исключение
-        BigDecimal negativeAmount = new BigDecimal("-10");
-
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> new Money(negativeAmount, "RUB")
-        );
-
-        assertEquals("Сумма не может быть отрицательной", exception.getMessage());
+    void shouldThrowExceptionWhenCurrencyIsNull() {
+        assertThatThrownBy(() -> new Money(new BigDecimal("100"), null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Сумма и валюта не могут быть пустыми");
     }
 }
